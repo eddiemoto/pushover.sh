@@ -6,7 +6,9 @@ Shell-script wrapper around curl for sending messages through PushOver
 Usage
 =====
 
-    pushover.sh [-t <title>] [-d <device>] [-p <priority>] <message>
+    pushover.sh [-t <title>] [-d <device>] [-p <priority>] [-r <retry>] [-e <expire>] [-s <sound>] <message>
+    
+If you are using a priority of 2, the script will default with a retry value of 60 seconds and an expiration of 1 hour.  (-r "60" -e"3600")
 
 Before you can actually use this script, you must create `${HOME}/.config/pushover.conf` with the following contents:
 
@@ -17,5 +19,5 @@ Before you can actually use this script, you must create `${HOME}/.config/pushov
 Shell compatibility
 ===================
 
-A word of warning: I use bash (as in real bash, not dash) on all of my machines and I have a tendency to forget what syntax is cross-shell compatible. If things behave very strangely for you, this is very likely the first thing you should check. Better yet, if you know a better way a particular line could be implemented, don't hesitate to submit a patch. I would really like for this script to someday work on bash, dash and sh equally. :-)
+A word of warning: The original author knows what he is doing... I do not.  First bash script I've really ever had to change.
 
