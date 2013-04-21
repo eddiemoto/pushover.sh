@@ -20,8 +20,11 @@ usage() {
     echo "${0} <options> <message>"
     echo " -d <device>"
     echo " -p <priority>"
+    echo "    -r <retry>"
+    echo "    -e <expire>"
     echo " -t <title>"
     echo " -T <token>"
+    echo " -s <sound>"
     exit 1
 }
 opt_field() {
@@ -36,14 +39,20 @@ opt_field() {
 # Default values for options
 device=""
 priority=""
+retry="60"
+expire="3600"
 title=""
+sound=""
 
 # Option parsing
-optstring="d:p:t:T:h"
+optstring="s:d:p:r:e:t:T:h"
 while getopts ${optstring} c; do
     case ${c} in
+        s) sound="${OPTARG}" ;;
         d) device="${OPTARG}" ;;
         p) priority="${OPTARG}" ;;
+        r) retry="${OPTARG}" ;;
+        e) expire="${OPTARG}" ;;
         t) title="${OPTARG}" ;;
         T) TOKEN="${OPTARG}" ;;
         [h\?]) usage ;;
@@ -77,7 +86,10 @@ curl_cmd="\"${CURL}\" -s \
     -F \"message=${message}\" \
     $(opt_field title "${title}") \
     $(opt_field device "${device}") \
+    $(opt_field sound "${sound}") \
     $(opt_field priority "${priority}") \
+    $(opt_field retry "${retry}") \
+    $(opt_field expire "${expire}") \
     ${PUSHOVER_URL} 2>&1 >/dev/null || echo \"$0: Failed to send message\" >&2"
 eval "${curl_cmd}" 
 
